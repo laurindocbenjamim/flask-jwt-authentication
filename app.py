@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, make_response, render_template, sessi
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+import  json
 
 app = Flask("Flask with JWT Authentication")
 app.config['SECRET_KEY'] = '608433bf0b1a4d319ce2c6efa2982c3d'
@@ -44,14 +45,16 @@ def dashboard():
 def login():
     if request.form['username'] and request.form['password'] == '123456':
         session['logged_in'] = True
-        date = timedelta(seconds=120)
+        date = datetime.utcnow() + timedelta(seconds=120)
+        date_serialized = json.dumps(date, default=str)
+
         token = jwt.encode({
             'user': request.form['username'],
-            
+            'expiration': date_serialized
         },
             app.config['SECRET_KEY']
         )
-        return jsonify({'token': token})
+        return jsonify({'token': token })
     
     else:
         return make_response('Unable to verify', 403, 
