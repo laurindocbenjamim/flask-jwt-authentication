@@ -1,11 +1,16 @@
 import os
 import uuid
+import secrets
 
-secrete1 = os.urandom(12)
+secret1 = os.urandom(12)
 
-secrete2 = uuid.uuid4().hex
+secret2 = uuid.uuid4().hex
 
-print(f"SECRETE KEY FROM os:\n {secrete1}")
+secret3 = secrets.token_urlsafe(12)
+
+print(f"SECRETE KEY FROM os LIB:\n {secret1}")
 print("")
-print(f"SECRETE KEY FROM uuid:\n {secrete2}")
+print(f"SECRETE KEY FROM uuid LIB:\n {secret2}")
+print("")
+print(f"SECRETE KEY FROM secretes LIB:\n {secret3}")
 
